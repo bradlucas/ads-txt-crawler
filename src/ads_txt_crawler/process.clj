@@ -2,11 +2,6 @@
   (:require [ads-txt-crawler.domains :as d]
             [org.httpkit.client :as http]))
 
-;; @see http://travis-whitton.blogspot.com/2009/07/network-sweeping-with-clojure.html
-
-;; ignore pages which are HTML
-;; For example on FIOS you'll get a Verizon page for http://junk3432535.com/ads.txt
-
 (defn clean
   "Clean values by trimming strings and return a blank string to prevent nils from printing"
   [s]
@@ -63,11 +58,6 @@
       (.println *err* (format "blank headers for %s" url))
       (if (is-text headers)
         (remove nil? (map process-line (clojure.string/split-lines body)))))))
-
-
-;; (defn process [domains]
-;;   (map process-url (map build-url domains)))
-
 
 (defn urls
   "For a given domain build it's ads.txt url and return the urls it contains"
