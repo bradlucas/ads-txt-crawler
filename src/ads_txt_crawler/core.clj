@@ -10,7 +10,7 @@
 
 (def cli-options
   ;; domain list file
-  [["-t" "--targets FILE" "List of domaoins to crawl ads.txt files from"]])
+  [["-t" "--targets FILE" "List of domains to crawl ads.txt files from"]])
 
 
 (defn -main
