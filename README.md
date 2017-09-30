@@ -23,13 +23,13 @@ Options:
 
 ## Targets File
 
-The targets file is simply a list of domains and URLS to crawl. For each line the crawler will extract the domain make a request to http://DOMAIN/ads.txt.
+The targets file is simply a list of domains and URLS to crawl. For each line the crawler will extract the domain make a request to `http://DOMAIN/ads.txt`.
 
 The data returned will be parsed to ignore blank and commented lines. Each valid line will be parsed according to the Ads.txt specification.
 
 ## Running
 
-After building the project using `lein uberjar' pass the example target-domains.txt file included in the docs directory using the `-t` flag.
+After building the project using `lein uberjar` pass the example `target-domains.txt` file included in the docs directory using the `-t` flag.
 
 ```
 $ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/target-domains.txt
