@@ -60,7 +60,7 @@
     (if status
       ;; if 4xx or 5xx status then there is no ads.txt file
       (if (is-error status) 
-        (.println *err* (format "Error: 400 level error for %s" url))
+        (.println *err* (format "Error: 400/500 level error for %s" url))
         ;; if there are no headers then there is an issue
         (if (not headers)
           (.println *err* (format "Error: headers are blank for %s" url))
