@@ -5,7 +5,7 @@
 
 
 ;; default 
-(def targets-file "target-domains.txt")
+(def targets-file "./doc/target-domains.txt")
 
 
 (def cli-options
