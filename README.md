@@ -1,6 +1,10 @@
 # ads-txt-crawler
 
-A implementation of a crawler for Ads.txt files written in Clojure.
+An implementation of a crawler for Ads.txt files written in Clojure.
+
+A blog post associated with this release is available here:
+
+[http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/](http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/)
 
 ## Background
 
