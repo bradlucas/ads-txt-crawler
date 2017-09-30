@@ -2,6 +2,12 @@
 
 A implementation of a crawler for Ads.txt files written in Clojure.
 
+## Background
+
+IAB Tech Lab has released a specification for Ads.txt files. See [https://iabtechlab.com/ads-txt/](https://iabtechlab.com/ads-txt/).
+
+Along with the specification they have released a reference crawler written in Python. The repo for that project is [https://github.com/InteractiveAdvertisingBureau/adstxtcrawler](https://github.com/InteractiveAdvertisingBureau/adstxtcrawler).
+
 ## Building
 
 Build the project with the `lein uberjar` command.
