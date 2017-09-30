@@ -43,7 +43,15 @@ After building the project using `lein uberjar` pass the example `target-domains
 
 ```
 $ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/target-domains.txt
+
 ```
+
+There is now an additional test file containing the top 100 programmatic domains. Also note, that errors are printed to STDERR. To capture the results separately than the errors review the following example which runs ads-txt-crawler using the top 100 domains file.
+
+```
+$ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/top-100-programmatic-domains.txt >results.csv 2>err.log
+```
+
 
 
 ## License
