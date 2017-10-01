@@ -57,17 +57,19 @@
   ;; - parse lines into map of values
   ;; - ignore 
   (let [{:keys [status headers body error] :as resp} (get-url url)]
-    (if status
-      ;; if 4xx or 5xx status then there is no ads.txt file
-      (if (is-error status) 
-        (.println *err* (format "Error: 400/500 level error for %s" url))
-        ;; if there are no headers then there is an issue
-        (if (not headers)
-          (.println *err* (format "Error: headers are blank for %s" url))
-          ;; the content-type needs to be text/plain
-          (if (is-text url headers)
-            (remove nil? (map process-line (clojure.string/split-lines body))))))
-      (.println *err* (format "Error: Unknown issue calling %s" url)))))
+    (if error
+      (.println *err* (format "Error: %s for %s" (.toString error) url))
+      (if status
+        ;; if 4xx or 5xx status then there is no ads.txt file
+        (if (is-error status) 
+          (.println *err* (format "Error: 400/500 level error for %s" url))
+          ;; if there are no headers then there is an issue
+          (if (not headers)
+            (.println *err* (format "Error: headers are blank for %s" url))
+            ;; the content-type needs to be text/plain
+            (if (is-text url headers)
+              (remove nil? (map process-line (clojure.string/split-lines body))))))
+        (.println *err* (format "Error: Unknown issue calling %s" url))))))
 
 (defn build-url [domain]
   (format "http://%s/ads.txt" domain))
