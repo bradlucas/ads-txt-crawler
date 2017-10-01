@@ -2,10 +2,6 @@
 
 An implementation of a crawler for Ads.txt files written in Clojure.
 
-A blog post associated with this release is available here:
-
-[http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/](http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/)
-
 ## Background
 
 IAB Tech Lab has released a specification for Ads.txt files. See [https://iabtechlab.com/ads-txt/](https://iabtechlab.com/ads-txt/).
@@ -52,6 +48,11 @@ There is now an additional test file containing the top 100 programmatic domains
 $ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/top-100-programmatic-domains.txt >results.csv 2>err.log
 ```
 
+## Notes
+
+A blog post was written when the first release of this project was made. It may be of interest.
+
+[http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/](http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/)
 
 
 ## License
