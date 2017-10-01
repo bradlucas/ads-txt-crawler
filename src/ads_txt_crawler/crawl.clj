@@ -7,7 +7,7 @@
     (println (format "%s,%s,%s,%s,%s" domain exchange-domain account-id account-type tag-id))))
 
 (defn crawl-domain [domain]
-  (let [urls (p/urls domain)]
+  (let [urls (p/process domain)]
     (doseq [url urls]
       (print-url domain, url))))
 
