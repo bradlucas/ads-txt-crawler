@@ -1,6 +1,6 @@
 (ns ads-txt-crawler.process
   (:require [ads-txt-crawler.domains :as d]
-            [org.httpkit.client :as http]))
+            [ads-txt-crawler.httpkit :as h]))
 
 (defn clean
   "Clean values by trimming strings and return a blank string to prevent nils from printing"
@@ -39,14 +39,6 @@
     (catch java.lang.NullPointerException e
       (.println *err* (format "Error: content-type is not text/plain for %s" url)))))
 
-(defn get-url [url]
-  (try
-    @(http/get url {:follow-redirects true
-                    :insecure? true
-                    :max-redirects 10})
-    (catch java.net.UnknownHostException e1
-      (.println *err* (format "Invalid host %s" (:message (first (:via e1))))))))
-
 (defn is-error [status]
   (>= status 400))
   
@@ -56,7 +48,7 @@
   ;; - ignore commented lines
   ;; - parse lines into map of values
   ;; - ignore 
-  (let [{:keys [status headers body error] :as resp} (get-url url)]
+  (let [{:keys [status headers body error] :as resp} (h/get-url url)]
     (if error
       (.println *err* (format "Error: %s for %s" (.toString error) url))
       (if status
