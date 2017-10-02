@@ -20,7 +20,7 @@ $ lein uberjar
 ## Usage Example
 
 ```
-$ java -jar ads-txt-crawler-0.1.0-standalone.jar [options]
+$ java -jar ads-txt-crawler-0.0.2-standalone.jar [options]
 
 Options:
   -t FILE, --targets=FILE
