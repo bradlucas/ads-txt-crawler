@@ -1,6 +1,6 @@
 (ns ads-txt-crawler.process
   (:require [ads-txt-crawler.domains :as d]
-            [org.httpkit.client :as http]))
+            [ads-txt-crawler.httpkit :as h]))
 
 (defn clean
   "Clean values by trimming strings and return a blank string to prevent nils from printing"
@@ -33,35 +33,45 @@
   (if (not (comment-line line))
     (parse-line line)))
 
-(defn is-text [headers]
+(defn is-text [url headers]
   (try
     (clojure.string/starts-with? (:content-type headers) "text/plain")
     (catch java.lang.NullPointerException e
-      (println "is-text issue" headers))))
+      (.println *err* (format "Error: content-type is not text/plain for %s" url)))))
 
-(defn get-url [url]
-  (try
-    @(http/get url {:follow-redirects true
-                    :insecure? true
-                    :max-redirects 10})
-    (catch java.net.UnknownHostException e
-      (prn "Invalid host " (:message (first (:via e)))))))
-
+(defn is-error [status]
+  (>= status 400))
+  
 (defn read-ads-txt-url [url]
   ;; read the contents of url
   ;; - ignore non-text returns
   ;; - ignore commented lines
   ;; - parse lines into map of values
   ;; - ignore 
-  (let [{:keys [status headers body error] :as resp} (get-url url)]
-    (if (not headers)
-      (.println *err* (format "blank headers for %s" url))
-      (if (is-text headers)
-        (remove nil? (map process-line (clojure.string/split-lines body)))))))
+  (let [{:keys [status headers body error] :as resp} (h/get-url url)]
+    (if error
+      (.println *err* (format "Error: %s for %s" (.toString error) url))
+      (if status
+        ;; if 4xx or 5xx status then there is no ads.txt file
+        (if (is-error status) 
+          (.println *err* (format "Error: 400/500 level error for %s" url))
+          ;; if there are no headers then there is an issue
+          (if (not headers)
+            (.println *err* (format "Error: headers are blank for %s" url))
+            ;; the content-type needs to be text/plain
+            (if (is-text url headers)
+              (remove nil? (map process-line (clojure.string/split-lines body))))))
+        (.println *err* (format "Error: Unknown issue calling %s" url))))))
 
-(defn urls
+(defn build-url [domain]
+  (format "http://%s/ads.txt" domain))
+
+(defn read-ads-txt-domain [domain]
+  (let [url (build-url domain)]
+    (read-ads-txt-url url)))
+
+(defn process
   "For a given domain build it's ads.txt url and return the urls it contains"
   [domain]
-  (let [url (format "http://%s/ads.txt" domain)]
-    (read-ads-txt-url url)))
+  (read-ads-txt-domain domain))
 
