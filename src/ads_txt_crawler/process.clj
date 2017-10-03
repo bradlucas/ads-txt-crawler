@@ -60,7 +60,8 @@
             (.println *err* (format "Error: headers are blank for %s" url))
             ;; the content-type needs to be text/plain
             (if (is-text url headers)
-              (remove nil? (map process-line (clojure.string/split-lines body))))))
+              (remove nil? (map process-line (clojure.string/split-lines body)))
+              (.println *err* (format "Error: non-text result for %s" url)))))
         (.println *err* (format "Error: Unknown issue calling %s" url))))))
 
 (defn build-url [domain]
