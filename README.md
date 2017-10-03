@@ -42,22 +42,35 @@ $ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/target-doma
 
 ```
 
-There is now an additional test file containing the top 100 programmatic domains. Also note, that errors are printed to STDERR. To capture the results separately than the errors review the following example which runs ads-txt-crawler using the top 100 domains file.
+For an example, see the file [./doc/top-100-programmatic-domains.txt](top-100-programmatic-domains.txt) in the doc directory.
+
+To run this file you can either run the following command.
 
 ```
 $ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/top-100-programmatic-domains.txt >results.csv 2>err.log
 ```
 
+Or run the `run-100.sh` file in the scripts directory.
+
+```
+$ ./scripts/run-100.sh
+```
+
+Lastly, for those who want to just see some results, you can visit the following repository which contains the files from a recent Top 100 run.
+
+- [https://github.com/bradlucas/top-100-domains-ads-txt])https://github.com/bradlucas/top-100-domains-ads-txt)
+
 ## Notes
 
-A blog post was written when the first release of this project was made. It may be of interest.
+Some blog posts related to this project are available
 
 [http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/](http://blog.bradlucas.com/posts/2017-09-30-a-clojure-ads-txt-crawler/)
+[http://blog.bradlucas.com/posts/2017-10-01-updated-clojure-ads-txt-crawler/](http://blog.bradlucas.com/posts/2017-10-01-updated-clojure-ads-txt-crawler/)
+[http://blog.bradlucas.com/posts/2017-10-03-ads-txt-top-100-domain-results/](http://blog.bradlucas.com/posts/2017-10-03-ads-txt-top-100-domain-results/)
 
 
 ## License
 
 Copyright © 2017 Brad Lucas
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
