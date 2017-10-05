@@ -51,7 +51,7 @@ The targets file is simply a list of domains and URLS to crawl. For each line th
 
 The data returned will be parsed to ignore blank and commented lines. Each valid line will be parsed according to the Ads.txt specification.
 
-## Example
+## Example without output to STDOUT and STDERR
 
 After building the project using `lein uberjar` pass the example `target-domains.txt` file included in the docs directory using the `-t` flag.
 
@@ -76,7 +76,34 @@ $ ./scripts/run-100.sh
 
 Lastly, for those who want to just see some results, you can visit the following repository which contains the output files from a recent Top 100 `run-100.sh` run.
 
-- [https://github.com/bradlucas/top-100-domains-ads-txt])https://github.com/bradlucas/top-100-domains-ads-txt)
+- [https://github.com/bradlucas/top-100-domains-ads-txt](https://github.com/bradlucas/top-100-domains-ads-txt)
+
+
+## Example saving to SQLite database
+
+Create your initial database using the following command. Here I'll create a database called ads-txt.db
+
+```
+$ sqlite3 ads-txt.db < ./sql/create.sql
+```
+
+Then to run the Topp 100 domains as an example use the following command.
+
+```
+$ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar -t ./doc/top-100-programmatic-domains.txt -d ads-txt.db
+```
+
+You'll notice that your errors will still show but the data will be saved into the database.
+
+To verify the database you can dump the table with the following command.
+
+```
+$ echo 'select * from adstxt;' | sqlite3 ads-txt.db
+```
+
+Also, you can open the database with `sqlite3`.
+
+
 
 ## Notes
 
