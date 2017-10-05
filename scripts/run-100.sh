@@ -16,5 +16,5 @@ cat results.csv | cut -d, -f1 | sort | uniq > domains-with-ads-txt.txt
 cat error.log | sed "s/.*http:\/\///" | cut -d/ -f1 | uniq | sort > domains-without-ads-txt.txt
 
 
-
-
+echo "See the files results.csv, error.log, domains-with-ads-txt.txt and domains-without-ads-txt.txt"
+echo "done"
