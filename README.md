@@ -1,17 +1,27 @@
-# ads-txt-crawler
+# Ads-txt-crawler
 
 An implementation of a crawler for Ads.txt files written in Clojure.
 
-## Background
+## Ads.txt Files
 
 IAB Tech Lab released a specification for Ads.txt files. See [https://iabtechlab.com/ads-txt/](https://iabtechlab.com/ads-txt/).
 
 Along with the specification they released a reference crawler written in Python. The repository for that project is [https://github.com/InteractiveAdvertisingBureau/adstxtcrawler](https://github.com/InteractiveAdvertisingBureau/adstxtcrawler).
 
-This project demonstrates a crawler for Ads.txt files written in Clojure. As of this writing the Python project differs from this project in that it saves it's data to a SQLite database. This project simply outputs the data to STDOUT and writes errors to STDERR. As a proof of concept this has been more than adequent to investigate a large number of domains and their Ads.txt files.
+This project demonstrates a crawler for Ads.txt files written in Clojure. As of this writing this project differs slighly from the Python project. The Python project defaults to saving it's data to a SQLite database. This project defaults to sending it's output to STDOUT and it's errors to STDERR . The project does support saving it's data to a SQLite database but it is optional. 
 
 
-## Building
+## Installation
+
+This project has optional support for saving data to a local SQLite database. To facilitate this install `sqlite3'.
+
+Then to create the initial database run the following command.
+
+```
+$ sqlite3 database.db < ./sql/create.sql
+```
+
+## Build
 
 Build the project with the `lein uberjar` command.
 
@@ -19,7 +29,7 @@ Build the project with the `lein uberjar` command.
 $ lein uberjar
 ```
 
-## Usage Example
+## Usage
 
 ```
 $ java -jar ads-txt-crawler-standalone.jar [options]
@@ -27,7 +37,13 @@ $ java -jar ads-txt-crawler-standalone.jar [options]
 Options:
           -t FILE, --targets=FILE
                                    list of domains to crawler ads.txt from
+
+          -d FILE, --database=FILE
+                                   database to dump crawled data into
 ```
+
+The `targets` file is required and the `database` file is optional. If you do not submit a database name the program will output it's data to STDOUT and it's errors to STDERR.
+
 
 ## Targets File
 
@@ -75,4 +91,3 @@ Copyright © 2017 Brad Lucas
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
 
-LocalWords:  adequent
