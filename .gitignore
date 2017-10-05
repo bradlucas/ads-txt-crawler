@@ -12,3 +12,5 @@ pom.xml.asc
 *.csv
 *.log
 *.db
+domains-with-ads-txt.txt
+domains-without-ads-txt.txt
