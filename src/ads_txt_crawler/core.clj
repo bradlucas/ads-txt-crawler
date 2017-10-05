@@ -10,15 +10,12 @@
 
 (def cli-options
   ;; domain list file
-  [["-t" "--targets FILE" "List of domains to crawl ads.txt files from"]])
+  [["-t" "--targets FILE" "List of domains to crawl ads.txt files from"]
+   ["-d" "--database FILE" "Database to dump crawled data into"]])
 
 
-(defn -main
-  ""
-  [& args]
+(defn -main [& args]
   (let [opts (parse-opts args cli-options)]
     (let [fname (or (:targets (:options opts)) targets-file)
-          domain (:domain (:options opts))]
-          (if domain
-            (c/crawl-domain domain)
-            (c/crawl fname)))))
+          database (:database (:options opts))]
+      (c/crawl fname database))))
