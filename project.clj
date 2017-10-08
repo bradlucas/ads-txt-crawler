@@ -1,4 +1,4 @@
-(defproject ads-txt-crawler "0.0.5"
+(defproject com.bradlucas/ads-txt-crawler "0.0.6"
   :description "An implementation of a crawler for Ads.txt files written in Clojure"
   :url "https://github.com/bradlucas/ads-txt-crawler"
   :license {:name "Eclipse Public License"
@@ -11,4 +11,6 @@
                  [org.xerial/sqlite-jdbc "3.20.0"]]
   :target-path "target/%s"
   :profiles {:uberjar {:uberjar-name "ads-txt-crawler-standalone.jar" :aot :all}}
+  :deploy-repositories [["releases" {:url "https://clojars.org/repo"
+                                   :creds :gpg}]]
   :main ^:skip-aot ads-txt-crawler.core)
