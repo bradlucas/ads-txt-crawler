@@ -11,4 +11,6 @@
                  [org.xerial/sqlite-jdbc "3.20.0"]]
   :target-path "target/%s"
   :profiles {:uberjar {:uberjar-name "ads-txt-crawler-standalone.jar" :aot :all}}
+  :deploy-repositories [["releases" {:url "https://clojars.org/repo"
+                                   :creds :gpg}]]
   :main ^:skip-aot ads-txt-crawler.core)
