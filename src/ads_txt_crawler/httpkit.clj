@@ -29,7 +29,7 @@
 ;; Pass the :client above in
 ;; So this routine tries normally and if there is an error tries the SNI supported call
 (defn get-url [url]
-  (let [opts {:follow-redirects true :insecure? true :max-redirects 10}]
+  (let [opts {:follow-redirects true :insecure? true :max-redirects 10 :timeout 5000}]
     (let [{:keys [status headers body error] :as resp} @(http/get url opts)]
       (if error
         @(http/get url (assoc opts :client client))
