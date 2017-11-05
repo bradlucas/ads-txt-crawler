@@ -16,6 +16,10 @@
 
 (defn -main [& args]
   (let [opts (parse-opts args cli-options)]
-    (let [fname (or (:targets (:options opts)) targets-file)
+    (let [fname (or (:targets (:options opts)))
           database (:database (:options opts))]
-      (c/crawl fname database))))
+      (if (or fname database)
+        (c/crawl fname database)
+        (doseq [domain args]
+          (c/crawl-single-domain domain))))))
+

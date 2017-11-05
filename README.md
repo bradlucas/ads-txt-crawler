@@ -32,7 +32,7 @@ $ lein uberjar
 ## Usage
 
 ```
-$ java -jar ads-txt-crawler-standalone.jar [options]
+$ java -jar ads-txt-crawler-standalone.jar [options] [domains]
 
 Options:
           -t FILE, --targets=FILE
@@ -40,6 +40,11 @@ Options:
 
           -d FILE, --database=FILE
                                    database to dump crawled data into
+
+Arguments:
+        Optionally you can pass a series of domains to process on the command line
+        
+
 ```
 
 The `targets` file is required and the `database` file is optional. If you do not submit a database name the program will output it's data to STDOUT and it's errors to STDERR.
@@ -103,7 +108,11 @@ $ echo 'select * from adstxt;' | sqlite3 ads-txt.db
 
 Also, you can open the database with `sqlite3`.
 
+### Example passing domins on the command line
 
+```
+$ java -jar ./target/uberjar/ads-txt-crawler-standalone.jar washingtonpost.com ibm.com businessinsider.com
+```
 
 ## Notes
 
