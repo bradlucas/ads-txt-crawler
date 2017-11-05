@@ -84,18 +84,23 @@
     (let [rtn {:domain domain}
           {:keys [status headers body error] :as resp} (h/get-url url)]
       (if error
-        (assoc rtn :error true :error-message (.getMessage error) :status status)
+        (assoc rtn :error true :message (format "Error: %s for %s" (.toString error) url))
         (if status
           ;; Error returned from server
           (if (is-error status)
-            (assoc rtn :error true :error-message (format "Invalid status %d" status) :status status)
+            (assoc rtn :error true :status status :message (format "Error: 400/500 level error for %s" url))
             ;; Issue without having headers
             (if (not headers)
-              (assoc rtn :error true :error-message "Blank headers" :status status)
+              (assoc rtn :error true :status status (format "Error: headers are blank for %s" url))
               ;; Non-text returned
               (if (not (is-text url headers))
-                (assoc rtn :error true :error-message "Non-text result" :status status)
+                (assoc rtn :error true :status status :message (format "Error: non-text result for %s" url))
                 ;; Valid data. Process and return as data
-                (assoc rtn :error false :status status :records (remove nil? (map process-line (clojure.string/split-lines body)))))))
+                (assoc rtn :error false :status status :records (remove nil? (map process-line (clojure.string/split-lines body))))
+                )))
           ;; No status, No error
-          (assoc rtn :error true :error-message "Unknown issue. No error, No Status"))))))
+          (assoc rtn :error true :message (format "Error: Unknown issue calling %s" url))
+          )))))
+
+
+
