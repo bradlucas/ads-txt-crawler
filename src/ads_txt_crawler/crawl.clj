@@ -3,9 +3,6 @@
             [ads-txt-crawler.database :as data]
             [ads-txt-crawler.process :as p]))
 
-;; (defn print-record [domain record]
-;;   (let [{:keys [exchange-domain account-id account-type tag-id]} record]
-;;     (println (format "%s,%s,%s,%s,%s" domain exchange-domain account-id account-type tag-id))))
 
 (defn print-results
   "Print the results to stdout"

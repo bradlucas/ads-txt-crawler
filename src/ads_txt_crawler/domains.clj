@@ -51,11 +51,3 @@
   "For a given list of domains clean them into the proper format"
   [domains]
   (map clean-name domains))
-
-;; (defn domains
-;;   "For a given file read it's list of domain names and return them"
-;;   [fname]
-;;   (read-domain-file fname))
-
-
-
