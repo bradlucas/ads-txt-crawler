@@ -63,16 +63,12 @@
               (remove nil? (map process-line (clojure.string/split-lines body)))
               (.println *err* (format "Error: non-text result for %s" url)))))
         (.println *err* (format "Error: Unknown issue calling %s" url))))))
-
+  
 (defn build-url [domain]
   (format "http://%s/ads.txt" domain))
-
-(defn read-ads-txt-domain [domain]
-  (let [url (build-url domain)]
-    (read-ads-txt-url url)))
 
 (defn process
   "For a given domain build it's ads.txt url and return the urls it contains"
   [domain]
-  (read-ads-txt-domain domain))
+  (read-ads-txt-url (build-url domain)))
 
