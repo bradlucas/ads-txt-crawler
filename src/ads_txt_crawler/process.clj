@@ -42,35 +42,8 @@
 (defn is-error [status]
   (>= status 400))
   
-;; (defn read-ads-txt-url [url]
-;;   ;; read the contents of url
-;;   ;; - ignore non-text returns
-;;   ;; - ignore commented lines
-;;   ;; - parse lines into map of values
-;;   ;; - ignore 
-;;   (let [{:keys [status headers body error] :as resp} (h/get-url url)]
-;;     (if error
-;;       (.println *err* (format "Error: %s for %s" (.toString error) url))
-;;       (if status
-;;         ;; if 4xx or 5xx status then there is no ads.txt file
-;;         (if (is-error status) 
-;;           (.println *err* (format "Error: 400/500 level error for %s" url))
-;;           ;; if there are no headers then there is an issue
-;;           (if (not headers)
-;;             (.println *err* (format "Error: headers are blank for %s" url))
-;;             ;; the content-type needs to be text/plain
-;;             (if (is-text url headers)
-;;               (remove nil? (map process-line (clojure.string/split-lines body)))
-;;               (.println *err* (format "Error: non-text result for %s" url)))))
-;;         (.println *err* (format "Error: Unknown issue calling %s" url))))))
-  
 (defn build-url [domain]
   (format "http://%s/ads.txt" domain))
-
-;; (defn process
-;;   "For a given domain build it's ads.txt url and return the urls it contains"
-;;   [domain]
-;;   (read-ads-txt-url (build-url domain)))
 
 (defn process-to-map
   "Return results in a map including a status value"
