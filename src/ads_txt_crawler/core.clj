@@ -15,7 +15,11 @@
   (let [opts (parse-opts args cli-options)]
     (let [targets-file (or (:targets (:options opts)))
           database-file (:database (:options opts))
-          domains (if targets-file (domains/read-file targets-file) (domains/clean-list args))
-          output-fnc (if database-file (c/save-results database-file) c/print-results)]
+          domains (if targets-file
+                    (domains/read-file targets-file)
+                    (domains/clean-list args))
+          output-fnc (if database-file
+                       (c/save-results database-file)
+                       c/print-results)]
       (c/crawl domains output-fnc))))
 
