@@ -72,3 +72,39 @@
   [domain]
   (read-ads-txt-url (build-url domain)))
 
+(defn read-ads-txt-url-map [url]
+  ;; read the contents of url
+  ;; - ignore non-text returns
+  ;; - ignore commented lines
+  ;; - parse lines into map of values
+  ;; - ignore
+  (let [rtn {}
+        {:keys [status headers body error] :as resp} (h/get-url url)]
+    ;; (println error)
+    ;; (println status)
+    ;; (println headers)
+    ;; (println body)
+    ;; Error reaching the domain
+    (if error
+      (assoc rtn :error true :error-message (.getMessage error) :status status)
+      (if status
+        ;; Error returned from server
+        (if (is-error status)
+          (assoc rtn :error true :error-message (format "Invalid status %d" status) :status status)
+          ;; Issue without having headers
+          (if (not headers)
+            (assoc rtn :error true :error-message "Blank headers" :status status)
+            ;; Non-text returned
+            (if (not (is-text url headers))
+              (assoc rtn :error true :error-message "Non-text result" :status status)
+              ;; Valid data. Process and return as data
+              (assoc rtn :error false :status status :data (remove nil? (map process-line (clojure.string/split-lines body)))))))
+        ;; No status, No error
+        (assoc rtn :error true :error-message "Unknown issue. No error, No Status")
+        ))))
+
+(defn process-to-map
+  "Return results in a map including a status value"
+  [domain]
+  (read-ads-txt-url-map (build-url domain)))
+
