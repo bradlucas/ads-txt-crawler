@@ -64,8 +64,8 @@
 ;;               (.println *err* (format "Error: non-text result for %s" url)))))
 ;;         (.println *err* (format "Error: Unknown issue calling %s" url))))))
   
-;; (defn build-url [domain]
-;;   (format "http://%s/ads.txt" domain))
+(defn build-url [domain]
+  (format "http://%s/ads.txt" domain))
 
 ;; (defn process
 ;;   "For a given domain build it's ads.txt url and return the urls it contains"
