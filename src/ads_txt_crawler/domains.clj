@@ -23,25 +23,31 @@
    (clojure.string/starts-with? line "#")
    (clojure.string/blank? line))))
 
-(defn read-domain-file [fname]
-  ;; read file and return list of non-commented lines
-  ;; - remove commented lines
+(defn clean-domain-name
+  [domain]
   ;; - trim leading and trailing whitespace
   ;; - remove http[s]:// prefixes
   ;; - remove www. prefixes
   ;; - lower case
+  (-> domain
+      (clojure.string/lower-case)
+      (clojure.string/trim)
+      (hostname)
+      (strip-www)))
+
+(defn read-domain-file [fname]
+  ;; read file and return list of non-commented lines
+  ;; - remove commented lines
   (with-open [r (clojure.java.io/reader fname)]
     (doall
      (->> (line-seq r)
           (filter ignore-line)
-          (map #(-> %
-                   (clojure.string/lower-case)
-                   (clojure.string/trim)
-                   (hostname)
-                   (strip-www)
-                   ))))))
+          (map clean-domain-name)))))
 
 (defn domains
   "For a given file read it's list of domain names and return them"
   [fname]
   (read-domain-file fname))
+
+
+
