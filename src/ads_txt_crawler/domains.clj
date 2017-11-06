@@ -23,31 +23,31 @@
    (clojure.string/starts-with? line "#")
    (clojure.string/blank? line))))
 
-(defn clean-domain-name
+(defn clean-name
+  "Clean a domain name into a proper format:
+
+  - Trim leading and trailing whitespace
+  - Remove http[s]:// prefixes
+  - Remove www. prefixes
+  - Lower case"
   [domain]
-  ;; - trim leading and trailing whitespace
-  ;; - remove http[s]:// prefixes
-  ;; - remove www. prefixes
-  ;; - lower case
   (-> domain
       (clojure.string/lower-case)
       (clojure.string/trim)
       (hostname)
       (strip-www)))
 
-(defn read-domain-file [fname]
-  ;; read file and return list of non-commented lines
-  ;; - remove commented lines
+(defn read-file
+  "Read file of domaain names. Ignore blank lines and commentted lines. 
+  Clean remaining domain names into the proper format"
+  [fname]
   (with-open [r (clojure.java.io/reader fname)]
     (doall
      (->> (line-seq r)
           (filter ignore-line)
-          (map clean-domain-name)))))
+          (map clean-name)))))
 
-(defn domains
-  "For a given file read it's list of domain names and return them"
-  [fname]
-  (read-domain-file fname))
-
-
-
+(defn clean-list
+  "For a given list of domains clean them into the proper format"
+  [domains]
+  (map clean-name domains))
