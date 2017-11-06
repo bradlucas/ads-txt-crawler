@@ -99,7 +99,7 @@
   The domains list can be generated from a file from the domains/domains function.
   Domains from other sources should be pre-processed with domains/clean-domain-name."
   [domains output-fnc]
-  (doseq [ddomain domains]
+  (doseq [domain domains]
     (let [data (get-data domain)]
       (if-let [err (:error data)]
         (.println *err* (:message data))
