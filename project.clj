@@ -1,4 +1,4 @@
-(defproject com.bradlucas/ads-txt-crawler "0.0.8"
+(defproject com.bradlucas/ads-txt-crawler "0.0.9"
   :description "An implementation of a crawler for Ads.txt files written in Clojure"
   :url "https://github.com/bradlucas/ads-txt-crawler"
   :license {:name "Eclipse Public License"
