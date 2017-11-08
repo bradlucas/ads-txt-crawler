@@ -33,11 +33,19 @@
   (if (not (comment-line line))
     (parse-line line)))
 
-(defn is-text [url headers]
-  (try
-    (clojure.string/starts-with? (:content-type headers) "text/plain")
-    (catch java.lang.NullPointerException e
-      (.println *err* (format "Error: content-type is not text/plain for %s" url)))))
+(defn is-text-content-type
+  "Do we have a content-type == text/plain
+
+Note: It was observed that some companies are returning text but not including a Content-Type value.
+So, we assume if there is no content-type header that we have text
+If there is a content-type header we'll check as before to ensure that it is set to text/plain/."
+  [headers]
+  (and (contains? headers :content-type)
+       (clojure.string/starts-with? (:content-type headers) "text/plain")))
+
+
+(defn no-content-type-header [headers]
+  (not (contains? headers :content-type)))
 
 (defn is-error [status]
   (>= status 400))
@@ -50,12 +58,12 @@
   [domain]
   (let [url (build-url domain)]
     ;; read the contents of url
-    ;; - ignore non-text returns
+    ;; - ignore non-text returns1
     ;; - ignore commented lines
     ;; - parse lines into map of values
     ;; - ignore
-    (let [rtn {:domain domain}
-          {:keys [status headers body error] :as resp} (h/get-url url)]
+    (let [rtn {:domain domain :url url}     
+          {:keys [status headers body error] :as resp} (h/fixup-stream (h/get-url url))]   ;; TODO Consider returning the body to save elsewhere
       (if error
         (assoc rtn :error true :message (format "Error: %s for %s" (.toString error) url))
         (if status
@@ -65,13 +73,16 @@
             ;; Issue without having headers
             (if (not headers)
               (assoc rtn :error true :status status (format "Error: headers are blank for %s" url))
-              ;; Non-text returned
-              (if (not (is-text url headers))
-                (assoc rtn :error true :status status :message (format "Error: non-text result for %s" url))
+              ;; If we have a content-type it needs to be text-plain
+              ;; Else if we are missing a content-type let's assume/hope that we have a text
+              ;; Note: without a content-type httpkit returns a stream so we need to call fixup-stream after get-url 
+              (if (or (is-text-content-type headers) (no-content-type-header headers))
                 ;; Valid data. Process and return as data
                 (assoc rtn :error false :status status :records (remove nil? (map process-line (clojure.string/split-lines body))))
+                ;; Non-text returned
+                (assoc rtn :error true :status status :message (format "Error: non-text result for %s" url))
                 )))
-          ;; No status, No error
+          ;; No status, No errorbhtt
           (assoc rtn :error true :message (format "Error: Unknown issue calling %s" url)))))))
 
 (defn print-results

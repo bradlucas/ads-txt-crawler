@@ -12,6 +12,11 @@
 
 (def client (http/make-client {:ssl-configurer sni-configure}))
 
+(defn fixup-stream [m]
+  (if (instance? org.httpkit.BytesInputStream (:body m))
+    (let [body (slurp (:body m))]
+      (assoc m :body body))
+    m))
 
 ;; This produces the following error if called directly with http://elpais.com/ads.txt
 ;; When it redirects to https://elpais.com/ads.txt the following error happens
