@@ -33,11 +33,16 @@
   (if (not (comment-line line))
     (parse-line line)))
 
-(defn is-text [url headers]
-  (try
+(defn is-text
+  "Do we have a text document.
+
+Note: It was observed that some companies are returning text but not including a Content-Type value.
+So, we assume if there is no content-type header that we have text
+If there is a content-type header we'll check as before to ensure that it is set to text/plain/."
+  [url headers]
+  (if (contains? headers :content-type)
     (clojure.string/starts-with? (:content-type headers) "text/plain")
-    (catch java.lang.NullPointerException e
-      (.println *err* (format "Error: content-type is not text/plain for %s" url)))))
+    true))
 
 (defn is-error [status]
   (>= status 400))
