@@ -62,8 +62,8 @@ If there is a content-type header we'll check as before to ensure that it is set
     ;; - ignore commented lines
     ;; - parse lines into map of values
     ;; - ignore
-    (let [rtn {:domain domain}
-          {:keys [status headers body error] :as resp} (h/fixup-stream (h/get-url url))]
+    (let [rtn {:domain domain :url url}     
+          {:keys [status headers body error] :as resp} (h/fixup-stream (h/get-url url))]   ;; TODO Consider returning the body to save elsewhere
       (if error
         (assoc rtn :error true :message (format "Error: %s for %s" (.toString error) url))
         (if status
