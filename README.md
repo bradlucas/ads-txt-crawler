@@ -1,3 +1,7 @@
+# This project has moved to [github.com/bradlucas/adstxt-crawler](https://github.com/bradlucas/adstxt-crawler)
+
+***
+
 # Ads-txt-crawler
 
 An implementation of a crawler for Ads.txt files written in Clojure.
